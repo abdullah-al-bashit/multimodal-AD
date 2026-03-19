@@ -1,0 +1,59 @@
+data:
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  saxs_dim: 300
+  waxs_dim: 290
+  total_dim: 590
+  train_split: 0.70
+  val_split: 0.15
+  test_split: 0.15
+  seed: 42
+
+preprocessing:
+  ball_radius: 20
+  normalize: true
+  norm_mode: "zscore"   # "zscore" | "minmax"
+
+background_cnn:
+  hidden_channels: [64, 128, 64]
+  kernel_size: 5
+  dropout: 0.1
+
+gnn:
+  k_neighbors: 8
+  hidden_dim: 128
+  latent_dim: 64
+  num_layers: 3
+  heads: 4
+  dropout: 0.1
+
+cross_modal:
+  method: "attention"   # "attention" | "concat" | "add"
+  temperature: 0.07
+
+decoder:
+  hidden_dim: 128
+  dropout: 0.1
+
+loss:
+  omega1: 1.0
+  omega2: 1.0
+  omega3: 1.0
+  omega4: 0.5
+  lambda1: 0.01
+  lambda2: 0.1
+  waxs_peak_positions: [50, 150]
+  waxs_peak_weight: 5.0
+
+training:
+  epochs: 100
+  batch_size: 32
+  learning_rate: 1.0e-3
+  weight_decay: 1.0e-4
+  lr_scheduler: "cosine"   # "cosine" | "step" | "none"
+  warmup_epochs: 5
+  gradient_clip: 1.0
+  log_interval: 10
+  checkpoint_dir: "checkpoints"
+  tensorboard_dir: "runs"
+  device: "cuda"
